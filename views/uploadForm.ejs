@@ -1,38 +1,42 @@
 
 
+<div class="card" style="max-width: 600px;margin: 0 auto;">
+    <div class="card-content">
+        <div class="content">
+            <form id="uploadForm">
+                <div class="custom-file-container" data-upload-id="myUniqueUploadId">
+                    <label
+                        >Clear all
+                        <a
+                            href="javascript:void(0)"
+                            class="custom-file-container__image-clear"
+                            title="Clear Image"
+                            >&times;</a
+                        ></label
+                    >
+                    <label class="custom-file-container__custom-file">
+                        <input
+                            type="file"
+                            class="custom-file-container__custom-file__custom-file-input"
+                            accept="*"
+                            multiple
+                            aria-label="Choose File"
+                        />
+                        <input type="hidden" name="MAX_FILE_SIZE" value="10485760" />
+                        <span
+                            class="custom-file-container__custom-file__custom-file-control"
+                        ></span>
+                    </label>
+                    <div class="custom-file-container__image-preview"></div>
+                </div>
 
-<form id="uploadForm">
-    <div class="custom-file-container" data-upload-id="myUniqueUploadId">
-        <label
-            >Upload File
-            <a
-                href="javascript:void(0)"
-                class="custom-file-container__image-clear"
-                title="Clear Image"
-                >&times;</a
-            ></label
-        >
-        <label class="custom-file-container__custom-file">
-            <input
-                type="file"
-                class="custom-file-container__custom-file__custom-file-input"
-                accept="*"
-                multiple
-                aria-label="Choose File"
-            />
-            <input type="hidden" name="MAX_FILE_SIZE" value="10485760" />
-            <span
-                class="custom-file-container__custom-file__custom-file-control"
-            ></span>
-        </label>
-        <div class="custom-file-container__image-preview"></div>
+            
+                <div class="control">
+                    <button class="button is-info" type="submit" value="Submit">Upload</button>
+                </div>
+            </form>
+        </div>
     </div>
-
-   
-    <div class="control">
-        <button class="button is-info" type="submit" value="Submit">Submit</button>
-    </div>
-</form>
-
+</div>
 
 <!-- <img src="/images/ea4810e2bfd3d8caa7702c99af545c22" alt=""> -->

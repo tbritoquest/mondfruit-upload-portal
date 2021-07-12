@@ -48,7 +48,7 @@ if(upload){
         let progressIncrement = parseInt(100/filesUnsent)
         let progress = 0
         while(upload.cachedFileArray.length>0 && filesUnsent > 0){
-
+           
             try{
                 
                 let formData = new FormData()
@@ -79,7 +79,7 @@ if(upload){
 
         hideInProgress()
         if(upload.cachedFileArray.length){
-            shownNotification('error', `${upload.cachedFileArray.length} files failed to upload. Please try again.`)
+            shownNotification('error', `${upload.cachedFileArray.length} ${upload.cachedFileArray.length===1? "file":"files"} failed to upload. Please try again.`)
         }else{
             shownNotification('success', `Upload successful.`)
         }
