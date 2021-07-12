@@ -76,13 +76,44 @@ if(upload){
             document.getElementsByClassName('progress-bar-fill')[0].style=`width: ${progress}%;`
             filesUnsent--
         }
-        hideInProgress()
 
+        hideInProgress()
+        if(upload.cachedFileArray.length){
+            shownNotification('error', `${upload.cachedFileArray.length} files failed to upload. Please try again.`)
+        }else{
+            shownNotification('success', `Upload successful.`)
+        }
         
     })
 }
 
+// function showSuccessNotification(message){
+//     let el = document.querySelector("div.notification")
+//     el.style.display = "block"
+//     el.className = "notification is-primary is-light"
+//     el.innerHTML = message
+// }
 
+// function showErrorNotification(message){
+//     let el = document.querySelector("div.notification")
+//     el.style.display = "block"
+//     el.className = "notification is-danger is-light"
+//     el.innerHTML = message
+// }
+
+const alertTypes = {
+    success:"is-success is-light",
+    error : "is-danger is-light"
+}
+
+function shownNotification(status, message){
+    let el = document.querySelector("div.notification")
+    el.style.display = "block"
+    el.className = `notification ${alertTypes[status]}`
+    // el.document.querySelector('p').innerHtml = message
+    el.children[1].innerHTML = message
+    
+}
 
 function showInProgress(){
     document.getElementById("in-progress").classList.remove("hide")
@@ -93,3 +124,18 @@ function hideInProgress(){
     document.getElementById("in-progress").classList.add("hide")
     document.getElementsByClassName('progress-bar-fill')[0].style='width:0;'
 }
+
+/**
+ * Bulma
+ */
+
+ document.addEventListener('DOMContentLoaded', () => {
+    (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
+      const $notification = $delete.parentNode;
+  
+      $delete.addEventListener('click', () => {
+        // $notification.parentNode.removeChild($notification);
+        $notification.style.display = "none"
+      });
+    });
+  });

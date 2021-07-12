@@ -11,9 +11,9 @@ form, .custom-file-container {
   display: none;
 }
 
-.is-danger{
+/* .is-danger{
   display: block !important;
-}
+} */
 
 #in-progress{
   background: #3636366b;
