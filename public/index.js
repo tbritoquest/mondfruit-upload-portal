@@ -37,36 +37,48 @@ if(loginForm){
 if(upload){
     const uploadForm = document.getElementById('uploadForm')
 
-    uploadForm.addEventListener('submit', event =>{
+    uploadForm.addEventListener('submit', async event =>{
         event.preventDefault()
-        // console.log("Upload form submitted! ", upload.cachedFileArray)
-        const formData = new FormData()
-        const images = upload.cachedFileArray
-
-        formData.append('title', 'Proof of Delivery')
-        
-        for (let i = 0; i < images.length; i++) {
-            formData.append('images', images[i]);
-        }
-
+       
         showInProgress()
 
-        fetch('/images', {
-            method: 'POST',
-            body: formData,
-        })
-        .then(response => response.json())
-        .then(result => {
-            console.log('Success:', result);
-            if(result.message === "Upload Completed"){
-                upload.clearPreviewPanel()
+        let filesUnsent= upload.cachedFileArray.length
+        let currIndex = 0
+
+        let progressIncrement = parseInt(100/filesUnsent)
+        let progress = 0
+        while(upload.cachedFileArray.length>0 && filesUnsent > 0){
+
+            try{
+                
+                let formData = new FormData()
+                formData.append('images', upload.cachedFileArray[currIndex])
+    
+                let {message} = await fetch('/images', {
+                    method: 'POST',
+                    body: formData,
+                })
+                .then(response => response.json())
+
+                if(message === "Upload Completed"){
+                    console.log("Completed: ",upload.cachedFileArray[currIndex])
+                    upload.deleteFileAtIndex(currIndex)
+                }else{
+                    currIndex++//skip file that was unsuccessful
+                }
+
+            }catch(error){
+                console.log(error)
+                currIndex++ //skip file that was unsuccessful
             }
-            hideInProgress()
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            hideInProgress()
-        });
+
+            progress+=progressIncrement
+            document.getElementsByClassName('progress-bar-fill')[0].style=`width: ${progress}%;`
+            filesUnsent--
+        }
+        hideInProgress()
+
+        
     })
 }
 
@@ -74,8 +86,10 @@ if(upload){
 
 function showInProgress(){
     document.getElementById("in-progress").classList.remove("hide")
+    
 }
 
 function hideInProgress(){
     document.getElementById("in-progress").classList.add("hide")
+    document.getElementsByClassName('progress-bar-fill')[0].style='width:0;'
 }
