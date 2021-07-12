@@ -1,41 +1,65 @@
 const loginForm = document.getElementById('loginForm')
 
-loginForm.addEventListener('submit', async event =>{
-    event.preventDefault()
+let upload
+try{
+    upload = new FileUploadWithPreview('myUniqueUploadId') 
+}catch(e){
+    upload = null
+}
+
+if(loginForm){
+    loginForm.addEventListener('submit', async event =>{
+        event.preventDefault()
+        const data = { phoneNum: document.getElementById('phone').value };
     
-    // const data = {phoneNum: document.getElementById('phone').value}
-
-    // const rawResponse = await fetch('/login', {
-    //                                 method: 'POST',
-    //                                 headers: {
-    //                                 'Accept': 'application/json',
-    //                                 'Content-Type': 'application/json'
-    //                                 },
-    //                                 body: JSON.stringify(data)
-    //                                 });
-
-
-    // Get secure url from our server
-    const {url} = await fetch("/s3Url").then(res=> res.json())
-
-    console.log(url); return;
-    const file = upload.cachedFileArray[0]
-    //post image directly to the s3 bucket
-    await fetch(url, {
-        method: "PUT",
+        const {message} = await fetch('/login', {
+        method: 'POST', // or 'PUT'
         headers: {
-            "Content-Type": "multipart/formdata"
+            'Content-Type': 'application/json',
         },
-        body: file
-    })
+        body: JSON.stringify(data),
+        }).then(res=> res.json())
     
-    const imageUrl = url.split('?')[0]
-    console.log(imageUrl)
+        if(message === "Authorized"){
+            window.location.href = '/dashboard';
+        }else{
+            document.getElementById("phone").classList.add("is-danger")
+            document.getElementById("phone-error").classList.add("is-danger")
+            console.log(message)
+        }
+
+       
+    
+    })
+}
 
 
-    const img = document.createElement("img")
-    img.src = imageUrl
-    document.body.appendChild(img)
-})
+if(upload){
+    const uploadForm = document.getElementById('uploadForm')
 
-let upload = new FileUploadWithPreview('myUniqueUploadId')
+    uploadForm.addEventListener('submit', event =>{
+        event.preventDefault()
+        // console.log("Upload form submitted! ", upload.cachedFileArray)
+        const formData = new FormData()
+        const images = upload.cachedFileArray
+
+        formData.append('title', 'Proof of Delivery')
+        
+        for (let i = 0; i < images.length; i++) {
+            formData.append('images', images[i]);
+        }
+
+        fetch('/images', {
+            method: 'POST',
+            body: formData,
+        })
+        .then(response => response.json())
+        .then(result => {
+            console.log('Success:', result);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    })
+}
+

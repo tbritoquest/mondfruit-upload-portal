@@ -1,5 +1,7 @@
-const AWS = require('aws-sdk');
 require('dotenv').config()
+const AWS = require('aws-sdk')
+const fs = require('fs')
+
 
 const   region = "us-east-2",
         bucketName = "mond-direct-upload-bucket",
@@ -10,27 +12,33 @@ const   region = "us-east-2",
 const s3 = new AWS.S3({
     region,
     accessKeyId,
-    secretAccessKey,
-    signatureVersion: 'v4'
+    secretAccessKey
 })
 
+//uploads a file to s3
+function uploadFile(file){
+    console.log("S3: ",s3)
+    const fileStream = fs.createReadStream(file.path)
 
-//  async function generateUploadURL(){
-module.exports = async function (){
-
-    const imageName = "random image Name"
-
-
-    const params = ({
+    const uploadParams = {
         Bucket: bucketName,
-        Key: imageName,
-        Expires: 60 // url valid for 60 secs
-    })
+        Body: fileStream,
+        Key: file.filename
+    }
 
-    const uploadURL = await s3.getSignedUrlPromise('putObject', params)
-
-    return uploadURL
+    return s3.upload(uploadParams).promise()
 }
 
+//downloads a file from s3
+function getFileStream(fileKey){
+    const downloadParams = {
+        Key: fileKey,
+        Bucket: bucketName
+    }
+
+    return s3.getObject(downloadParams).createReadStream()
+}
+
+module.exports = {uploadFile, getFileStream}
 
 

@@ -5,3 +5,13 @@ form, .custom-file-container {
     max-width: 400px;
     margin: 0 auto;
   }
+
+
+.help{
+  display: none;
+}
+
+.is-danger{
+  display: block !important;
+}
+
