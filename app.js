@@ -60,10 +60,10 @@ app.get('/', (req,res)=>{
 app.post('/login',function (req, res) { // create a cookie and redirect to dash board where form will be for now
 
     let minute = 60000
-
+    
    // Authenticate phone number
     if(db.has(req.body["phoneNum"])){
-        if(req.body.phoneNum) res.cookie('user', req.body.phoneNum, {maxAge:minute, signed: true})
+        if(req.body.phoneNum) res.cookie('user', req.body.phoneNum, {maxAge:minute*60, signed: true})
         res.status(200).send({message: "Authorized"})
     }else{
         res.status(500).send({message: "Unauthorized"})
