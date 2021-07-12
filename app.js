@@ -64,9 +64,9 @@ app.post('/login',function (req, res) { // create a cookie and redirect to dash 
    // Authenticate phone number
     if(db.has(req.body["phoneNum"])){
         if(req.body.phoneNum) res.cookie('user', req.body.phoneNum, {maxAge:minute, signed: true})
-        res.send(200,{message:"Authorized"})
+        res.status(200).send({message: "Authorized"})
     }else{
-        res.send(500,{message: "Unauthorized."})
+        res.status(500).send({message: "Unauthorized"})
     }
     
 })
@@ -75,14 +75,14 @@ app.get('/dashboard', restrict,(req,res)=>{
     res.render('uploadForm',{title:"Dashboard"})
 })
 
-app.post('/images', upload.array('images', 12), async (req,res)=>{
+app.post('/images', upload.array('images', 30), async (req,res)=>{
     console.log("Files: ", req.files)
     for(let i=0;i<req.files.length;i++){
         let result = await s3.uploadFile(req.files[i])
         console.log(`Result ${i}: `,result)
     }
     
-    res.send("upload completed")
+    res.send({message: "Upload Completed"})
 })
 
 //testing

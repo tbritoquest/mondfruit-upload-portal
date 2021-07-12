@@ -49,6 +49,8 @@ if(upload){
             formData.append('images', images[i]);
         }
 
+        showInProgress()
+
         fetch('/images', {
             method: 'POST',
             body: formData,
@@ -56,10 +58,24 @@ if(upload){
         .then(response => response.json())
         .then(result => {
             console.log('Success:', result);
+            if(result.message === "Upload Completed"){
+                upload.clearPreviewPanel()
+            }
+            hideInProgress()
         })
         .catch(error => {
             console.error('Error:', error);
+            hideInProgress()
         });
     })
 }
 
+
+
+function showInProgress(){
+    document.getElementById("in-progress").classList.remove("hide")
+}
+
+function hideInProgress(){
+    document.getElementById("in-progress").classList.add("hide")
+}
