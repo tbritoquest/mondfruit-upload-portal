@@ -32,16 +32,18 @@ form, .custom-file-container {
   display:none;
 }
 
-
+.container{
+  padding: 1em;
+}
 #in-progress p{
   text-align: center;
   margin-top: 20vh;
-  font-size:2em;
+  font-size:1.5em;
   color:#fff;
 }
 
 .progress-wrapper {
-  width: 500px;
+  width: clamp(120px, 70vw, 500px);
   margin: 0 auto;
 }
 
