@@ -16,14 +16,14 @@ const s3 = new AWS.S3({
 })
 
 //uploads a file to s3
-function uploadFile(file){
+function uploadFile(file,deliveryStop){
     console.log("S3: ",s3)
     const fileStream = fs.createReadStream(file.path)
 
     const uploadParams = {
         Bucket: bucketName,
         Body: fileStream,
-        Key: file.filename
+        Key: `${deliveryStop}/${file.filename}`
     }
 
     return s3.upload(uploadParams).promise()

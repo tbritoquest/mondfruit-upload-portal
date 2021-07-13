@@ -21,7 +21,7 @@ if(loginForm){
         }).then(res=> res.json())
     
         if(message === "Authorized"){
-            window.location.href = '/dashboard';
+            window.location.href = '/routes';
         }else{
             document.getElementById("phone").classList.add("is-danger")
             document.getElementById("phone-error").classList.add("is-danger")
@@ -36,10 +36,12 @@ if(loginForm){
 
 if(upload){
     const uploadForm = document.getElementById('uploadForm')
-
+    
     uploadForm.addEventListener('submit', async event =>{
         event.preventDefault()
        
+
+        const deliveryId = document.getElementById('deliveryId').value
         showInProgress()
 
         let filesUnsent= upload.cachedFileArray.length
@@ -53,7 +55,8 @@ if(upload){
                 
                 let formData = new FormData()
                 formData.append('images', upload.cachedFileArray[currIndex])
-    
+                formData.append('deliveryId', deliveryId)
+                
                 let {message} = await fetch('/images', {
             
                     method: 'POST',

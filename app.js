@@ -38,15 +38,16 @@ function restrict(req, res, next){
 //static files
 app.use(express.static('public'))
 
-
+// Database
 const db = new Set([
     "2019144129",
     "2016532226",
     "7185520712"
 ])
 
+const data = require('./db/db.js')
 
-
+// console.log(data.get("2019144129")[0])
 app.get('/', (req,res,next)=>{
     if(req.signedCookies.user){
         res.redirect('/dashboard')
@@ -72,14 +73,23 @@ app.post('/login',function (req, res) { // create a cookie and redirect to dash 
     
 })
 
+app.get('/routes',restrict,(req,res)=>{
+    res.render('routes',{title: 'Delivery Stops', deliveryStops: data.get("2019144129")})
+})
+app.get('/routes/:id', restrict, (req, res)=> {
+    let id = req.params.id
+    res.render('uploadForm',{title:'Dashboard', deliveryId: id})
+  })
+
+
 app.get('/dashboard', restrict,(req,res)=>{
     res.render('uploadForm',{title:"Dashboard"})
 })
 
 app.post('/images', restrict, upload.array('images', 30), async (req,res)=>{
-    console.log("Files: ", req.files)
+  
     for(let i=0;i<req.files.length;i++){
-        let result = await s3.uploadFile(req.files[i])
+        let result = await s3.uploadFile(req.files[i], req.body.deliveryId)
         console.log(`Result ${i}: `,result)
     }
     

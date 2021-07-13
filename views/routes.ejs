@@ -1,0 +1,28 @@
+<% for(let i=0;i<deliveryStops.length;i++){ %>
+    <!-- <a href="#">Stop<%= deliveryStops[i].customerName%></a> -->
+    <a href="/routes/<%=deliveryStops[i].deliveryId%>">
+    <div class="tile is-parent">
+        <article class="tile is-child box">
+          <div style="display:flex;">
+              <p># <%= deliveryStops[i].position%></p>
+              <p><%= deliveryStops[i].deliveryStatus%></p>
+          </div>
+          <p style="text-transform: uppercase;"><%= deliveryStops[i].customerName%></p>
+          <p><%= deliveryStops[i].city%>, <%= deliveryStops[i].state%></p>
+          <p><%= deliveryStops[i].timeSlot%></p>
+          <div style="display: flex;justify-content: space-between;">
+            <% if(deliveryStops[i].deliveryType === "business"){ %>
+                <p><strong>BD</strong></p>
+            <% }else{ %>
+                <p><strong>HD</strong></p>
+            <% } %>
+        
+            <p>KD:<%= deliveryStops[i].kdSum%> | ASM: <%= deliveryStops[i].asmSum%></p>
+          </div>
+        </article>
+      </div>
+    </a>
+<% } %>
+
+
+
