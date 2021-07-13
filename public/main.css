@@ -11,9 +11,9 @@ form, .custom-file-container {
   display: none;
 }
 
-/* .is-danger{
+.help.is-danger{
   display: block !important;
-} */
+}
 html{
   height: 100%;
   background: rgb(224 230 246);
@@ -67,4 +67,7 @@ html{
   border-radius: 3px;
   
   transition: width 500ms ease-in-out;
+}
+html.Login{
+  background: #fff !important;
 }

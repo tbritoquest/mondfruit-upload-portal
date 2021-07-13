@@ -25,7 +25,7 @@ if(loginForm){
         }else{
             document.getElementById("phone").classList.add("is-danger")
             document.getElementById("phone-error").classList.add("is-danger")
-            console.log(message)
+            
         }
 
        
@@ -55,21 +55,35 @@ if(upload){
                 formData.append('images', upload.cachedFileArray[currIndex])
     
                 let {message} = await fetch('/images', {
+            
                     method: 'POST',
                     body: formData,
+                }).then(response => response.json())
+                .catch((e)=>{
+                    if(document.cookie.length === 0){
+                        showNotification('error', "Your session has ended. Please <a href='/'>log in</a>.")
+                        hideInProgress()
+                        return
+                    }
+                    // window.location.href = "/"
+                    
                 })
-                .then(response => response.json())
-
+                
                 if(message === "Upload Completed"){
-                    console.log("Completed: ",upload.cachedFileArray[currIndex])
                     upload.deleteFileAtIndex(currIndex)
                 }else{
                     currIndex++//skip file that was unsuccessful
                 }
 
             }catch(error){
-                console.log(error)
-                currIndex++ //skip file that was unsuccessful
+                
+                if(document.cookie.length == 0){
+                    showNotification('error', "Your session has ended. Please <a href='/'>log in</a>.")
+                    hideInProgress()
+                    return
+                }
+                else
+                    currIndex++ //skip file that was unsuccessful
             }
 
             progress+=progressIncrement
@@ -79,38 +93,37 @@ if(upload){
 
         hideInProgress()
         if(upload.cachedFileArray.length){
-            shownNotification('error', `${upload.cachedFileArray.length} ${upload.cachedFileArray.length===1? "file":"files"} failed to upload. Please try again.`)
+            showNotification('error', `${upload.cachedFileArray.length} ${upload.cachedFileArray.length===1? "file":"files"} failed to upload. Please try again.`)
         }else{
-            shownNotification('success', `Upload successful.`)
+            showNotification('success', `Upload successful.`)
         }
         
     })
+
+
+   
+
+    // Submit button
+    window.addEventListener("fileUploadWithPreview:imagesAdded", toggleSubmit);
+
+    window.addEventListener("fileUploadWithPreview:imageDeleted", toggleSubmit);
 }
 
-// function showSuccessNotification(message){
-//     let el = document.querySelector("div.notification")
-//     el.style.display = "block"
-//     el.className = "notification is-primary is-light"
-//     el.innerHTML = message
-// }
-
-// function showErrorNotification(message){
-//     let el = document.querySelector("div.notification")
-//     el.style.display = "block"
-//     el.className = "notification is-danger is-light"
-//     el.innerHTML = message
-// }
+function toggleSubmit(){
+    let submitBtn = document.querySelector("#uploadForm button[type='submit']")
+    submitBtn.disabled = upload.cachedFileArray.length > 0 ? false: true
+    
+}
 
 const alertTypes = {
     success:"is-success is-light",
     error : "is-danger is-light"
 }
 
-function shownNotification(status, message){
+function showNotification(status, message){
     let el = document.querySelector("div.notification")
     el.style.display = "block"
     el.className = `notification ${alertTypes[status]}`
-    // el.document.querySelector('p').innerHtml = message
     el.children[1].innerHTML = message
     
 }
