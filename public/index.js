@@ -122,7 +122,7 @@ const alertTypes = {
 
 function showNotification(status, message){
     let el = document.querySelector("div.notification")
-    el.style.display = "block"
+    // el.style.display = "block"
     el.className = `notification ${alertTypes[status]}`
     el.children[1].innerHTML = message
     
@@ -148,7 +148,8 @@ function hideInProgress(){
   
       $delete.addEventListener('click', () => {
         // $notification.parentNode.removeChild($notification);
-        $notification.style.display = "none"
+        // $notification.style.display = "none"
+        $notification.className = "notification hide"
       });
     });
   });
