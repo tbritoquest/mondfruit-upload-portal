@@ -150,11 +150,6 @@ function showNotification(status, message){
     
 }
 
-function hideNotification(){
-    let el = document.querySelector("div.notification")
-    el.className = "notification hide"
-}
-
 function showInProgress(){
     document.getElementById("in-progress").classList.remove("hide")
 }
