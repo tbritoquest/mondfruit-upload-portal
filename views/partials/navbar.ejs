@@ -1,5 +1,10 @@
 <nav class="navbar" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
+      <%if(title==='Dashboard'){%>
+      <a href="javascript:history.back()" class="icon" style="font-size: 1.5em;margin: 0.5em 1em 0 1em;">
+        <i class="fas fa-arrow-left"></i>
+      </a>
+      <%}%>
       <a class="navbar-item" href="https://bulma.io">
         <img src="https://bulma.io/images/bulma-logo.png" alt="Bulma: Free, open source, and modern CSS framework based on Flexbox" width="112" height="28">
       </a>
