@@ -43,10 +43,10 @@ const employees = require('./db/employees.js')
 
 const data = require('./db/db.js')
 
-// console.log(data.get("2019144129")[0])
+
 app.get('/', (req,res,next)=>{
     if(req.signedCookies.user){
-        res.redirect('/dashboard')
+        res.redirect('/routes')
     }else{
         res.render('loginForm', {title:'Login'})
         
@@ -74,13 +74,13 @@ app.get('/routes',restrict,(req,res)=>{
 })
 app.get('/routes/:id', restrict, (req, res)=> {
     let id = req.params.id
-    res.render('uploadForm',{title:'Dashboard', deliveryId: id})
+    res.render('uploadForm',{title:'Uploads', deliveryId: id})
   })
 
 
-app.get('/dashboard', restrict,(req,res)=>{
-    res.render('uploadForm',{title:"Dashboard"})
-})
+// app.get('/dashboard', restrict,(req,res)=>{
+//     res.render('uploadForm',{title:"Dashboard"})
+// })
 
 app.post('/images', restrict, upload.array('images', 30), async (req,res)=>{
   
