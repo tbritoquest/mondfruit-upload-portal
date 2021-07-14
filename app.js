@@ -39,11 +39,7 @@ function restrict(req, res, next){
 app.use(express.static('public'))
 
 // Database
-const db = new Set([
-    "2019144129",
-    "2016532226",
-    "7185520712"
-])
+const employees = require('./db/employees.js')
 
 const data = require('./db/db.js')
 
@@ -64,7 +60,7 @@ app.post('/login',function (req, res) { // create a cookie and redirect to dash 
     let minute = 60000
     
    // Authenticate phone number
-    if(db.has(req.body["phoneNum"])){
+    if(employees.has(req.body["phoneNum"])){
         if(req.body.phoneNum) res.cookie('user', req.body.phoneNum, {maxAge:minute, signed: true})
         res.status(200).send({message: "Authorized"})
     }else{

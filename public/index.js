@@ -10,10 +10,21 @@ try{
 if(loginForm){
     loginForm.addEventListener('submit', async event =>{
         event.preventDefault()
-        const data = { phoneNum: document.getElementById('phone').value };
+
+        let phoneNum = formattedPhoneNumber(document.getElementById('phone').value)
+        
+        if(!isPhoneValid(phoneNum)){
+            console.log(phoneNum)
+            phoneError("Invalid number.")
+            return;
+        }else{
+            console.log(phoneNum)
+        }
+
+        const data = { phoneNum };
     
         const {message} = await fetch('/login', {
-        method: 'POST', // or 'PUT'
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
@@ -23,9 +34,7 @@ if(loginForm){
         if(message === "Authorized"){
             window.location.href = '/routes';
         }else{
-            document.getElementById("phone").classList.add("is-danger")
-            document.getElementById("phone-error").classList.add("is-danger")
-            
+            phoneError("This number is unauthorized.")
         }
 
        
@@ -33,14 +42,23 @@ if(loginForm){
     })
 }
 
+function isPhoneValid(str){
+    return str.length === 12
+}
+
+function phoneError(msg){
+    
+    document.getElementById("phone").classList.add("is-danger")
+    let phoneError = document.getElementById("phone-error")
+    phoneError.classList.add("is-danger")
+    phoneError.innerHTML = msg
+}
 
 if(upload){
     const uploadForm = document.getElementById('uploadForm')
     
     uploadForm.addEventListener('submit', async event =>{
         event.preventDefault()
-       
-
         const deliveryId = document.getElementById('deliveryId').value
         showInProgress()
 
@@ -56,7 +74,7 @@ if(upload){
                 let formData = new FormData()
                 formData.append('images', upload.cachedFileArray[currIndex])
                 formData.append('deliveryId', deliveryId)
-                
+
                 let {message} = await fetch('/images', {
             
                     method: 'POST',
@@ -64,6 +82,7 @@ if(upload){
                 }).then(response => response.json())
                 .catch((e)=>{
                     if(document.cookie.length === 0){
+                        showOverlay()
                         showNotification('error', "Your session has ended. Please <a href='/'>log in</a>.")
                         hideInProgress()
                         return
@@ -81,6 +100,7 @@ if(upload){
             }catch(error){
                 
                 if(document.cookie.length == 0){
+                    showOverlay()
                     showNotification('error', "Your session has ended. Please <a href='/'>log in</a>.")
                     hideInProgress()
                     return
@@ -125,15 +145,17 @@ const alertTypes = {
 
 function showNotification(status, message){
     let el = document.querySelector("div.notification")
-    // el.style.display = "block"
     el.className = `notification ${alertTypes[status]}`
-    el.children[1].innerHTML = message
+    el.querySelector('p').innerHTML = message
     
 }
 
 function showInProgress(){
     document.getElementById("in-progress").classList.remove("hide")
-    
+}
+
+function showOverlay(){
+    document.querySelector('.overlay').classList.remove("hide")
 }
 
 function hideInProgress(){
@@ -141,18 +163,31 @@ function hideInProgress(){
     document.getElementsByClassName('progress-bar-fill')[0].style='width:0;'
 }
 
+
+function formattedPhoneNumber(str){
+    let str2 = str.split('').filter(char => char.match(/^\d$/))
+    let arr = []
+    arr.push(str2.slice(0,3).join(''))
+    arr.push(str2.slice(3,6).join(''))
+    arr.push(str2.slice(6).join(''))
+    return arr.join('-')
+}
+
 /**
  * Bulma
  */
 
- document.addEventListener('DOMContentLoaded', () => {
-    (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
-      const $notification = $delete.parentNode;
+//  document.addEventListener('DOMContentLoaded', () => {
+//     (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
+//       const $notification = $delete.parentNode;
   
-      $delete.addEventListener('click', () => {
-        // $notification.parentNode.removeChild($notification);
-        // $notification.style.display = "none"
-        $notification.className = "notification hide"
-      });
-    });
-  });
+//       $delete.addEventListener('click', () => {
+//         // $notification.parentNode.removeChild($notification);
+//         // $notification.style.display = "none"
+//         $notification.className = "notification hide"
+//       });
+//     });
+//   });
+
+
+

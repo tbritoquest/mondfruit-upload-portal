@@ -20,7 +20,7 @@ html{
   /* background: rgb(245 248 254); */
 }
 
-#in-progress{
+#in-progress, .overlay{
   background: #363636c4;
   width: 100%;
   height: 100vh;
