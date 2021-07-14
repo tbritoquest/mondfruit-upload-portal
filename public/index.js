@@ -115,10 +115,13 @@ if(upload){
         }
 
         hideInProgress()
+
+        //Check if files uploaded successfully
         if(upload.cachedFileArray.length){
             showNotification('error', `${upload.cachedFileArray.length} ${upload.cachedFileArray.length===1? "file":"files"} failed to upload. Please try again.`)
         }else{
-            showNotification('success', `Upload successful.`)
+            window.location.href="/success"
+            // showNotification('success', `Upload successful.`)
         }
         
     })

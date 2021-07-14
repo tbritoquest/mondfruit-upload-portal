@@ -44,6 +44,10 @@ const employees = require('./db/employees.js')
 const data = require('./db/db.js')
 
 
+app.get('/success',restrict,(req,res)=>{
+    res.render('success',{layout: 'basicLayout',title:'successPage'})
+})
+
 app.get('/', (req,res,next)=>{
     if(req.signedCookies.user){
         res.redirect('/routes')
