@@ -9,16 +9,14 @@ try{
 
 if(loginForm){
     loginForm.addEventListener('submit', async event =>{
+
         event.preventDefault()
 
         let phoneNum = formattedPhoneNumber(document.getElementById('phone').value)
         
         if(!isPhoneValid(phoneNum)){
-            console.log(phoneNum)
             phoneError("Invalid number.")
-            return;
-        }else{
-            console.log(phoneNum)
+            return
         }
 
         const data = { phoneNum };
@@ -175,6 +173,9 @@ function formattedPhoneNumber(str){
     arr.push(str2.slice(6).join(''))
     return arr.join('-')
 }
+
+
+
 
 /**
  * Bulma
