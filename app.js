@@ -67,7 +67,7 @@ app.post('/login',async function (req, res) { // create a cookie and redirect to
     // if(employees.has(req.body["phoneNum"])){
     if(result.length>0){
         // let fullName = `${result[0].firstName} ${result[0].lastName}`
-        res.cookie('user', result[0].id, {maxAge:minute, signed: true})
+        res.cookie('user', result[0].id, {maxAge:minute*720, signed: true}) // 12 hours
         res.status(200).send({message: "Authorized"})
     }else{
         res.status(500).send({message: "Unauthorized"})
