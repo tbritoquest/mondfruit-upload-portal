@@ -57,7 +57,7 @@ if(upload){
     
     uploadForm.addEventListener('submit', async event =>{
         event.preventDefault()
-        const deliveryId = document.getElementById('deliveryId').value
+        const routePositionsId = document.getElementById('routePositionsId').value
         showInProgress()
 
         let filesUnsent= upload.cachedFileArray.length
@@ -71,7 +71,7 @@ if(upload){
                 
                 let formData = new FormData()
                 formData.append('images', upload.cachedFileArray[currIndex])
-                formData.append('deliveryId', deliveryId)
+                formData.append('routePositionsId', routePositionsId)
 
                 let {message} = await fetch('/images', {
             
@@ -85,7 +85,6 @@ if(upload){
                         hideInProgress()
                         return
                     }
-                    // window.location.href = "/"
                     
                 })
                 
@@ -119,15 +118,11 @@ if(upload){
             showNotification('error', `${upload.cachedFileArray.length} ${upload.cachedFileArray.length===1? "file":"files"} failed to upload. Please try again.`)
         }else{
             window.location.href="/success"
-            // showNotification('success', `Upload successful.`)
         }
         
     })
 
 
-   
-
-    // Submit button
     window.addEventListener("fileUploadWithPreview:imagesAdded", toggleSubmit);
 
     window.addEventListener("fileUploadWithPreview:imageDeleted", toggleSubmit);
@@ -173,25 +168,6 @@ function formattedPhoneNumber(str){
     arr.push(str2.slice(6).join(''))
     return arr.join('-')
 }
-
-
-
-
-/**
- * Bulma
- */
-
-//  document.addEventListener('DOMContentLoaded', () => {
-//     (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
-//       const $notification = $delete.parentNode;
-  
-//       $delete.addEventListener('click', () => {
-//         // $notification.parentNode.removeChild($notification);
-//         // $notification.style.display = "none"
-//         $notification.className = "notification hide"
-//       });
-//     });
-//   });
 
 
 

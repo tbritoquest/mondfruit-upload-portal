@@ -79,14 +79,14 @@ app.get('/routes',restrict,async (req,res)=>{
 
 app.get('/routes/:id', restrict, (req, res)=> {
     let id = req.params.id
-    res.render('uploadForm',{title:'Uploads', deliveryId: id})
+    res.render('uploadForm',{title:'Uploads', routePositionsId: id})
 })
 
 
 app.post('/images', restrict, upload.array('images', 30), async (req,res)=>{
   
     for(let i=0;i<req.files.length;i++){
-        let result = await s3.uploadFile(req.files[i], req.body.deliveryId)
+        let result = await s3.uploadFile(req.files[i], req.body.routePositionsId)
     }
     
     res.send({message: "Upload Completed"})

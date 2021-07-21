@@ -16,8 +16,8 @@ form, .custom-file-container {
 }
 html{
   height: 100%;
-  background: rgb(224 230 246);
-  /* background: rgb(245 248 254); */
+  /* background: rgb(224 230 246); */
+  background: rgb(245 248 254);
 }
 
 #in-progress, .overlay{
@@ -74,4 +74,16 @@ html{
 }
 html.Login{
   background: #fff !important;
+}
+
+.navbar{
+  background: #104cce;
+}
+.button.is-primary {
+  background-color: #104cce;
+  border-color: transparent;
+  color: #fff;
+}
+.button.is-primary:hover{
+  background-color: #0f42b1;
 }

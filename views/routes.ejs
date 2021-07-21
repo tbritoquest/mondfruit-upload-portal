@@ -1,10 +1,10 @@
 <% for(let i=0;i<deliveryStops.length;i++){ %>
     <!-- <a href="#">Stop<%= deliveryStops[i].customerName%></a> -->
-    <a href="/routes/<%=deliveryStops[i].deliveryId%>">
+    <a href="/routes/<%=deliveryStops[i].routePositionsId%>">
     <div class="tile is-parent">
         <article class="tile is-child box">
           <div style="display:flex;gap:0.5em;">
-              <p># <%= deliveryStops[i].position%></p>
+              <p># <%= deliveryStops[i].position+1%></p>
               <p><%= deliveryStops[i].deliveryStatus%></p>
           </div>
           <p style="text-transform: uppercase;"><%= deliveryStops[i].customerName%></p>
