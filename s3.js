@@ -4,17 +4,24 @@ const fs = require('fs')
 const sharp = require('sharp')
 
 
-const   region = "us-east-2",
-        bucketName = "mond-direct-upload-bucket",
-        accessKeyId = process.env.AWS_ACCESS_KEY_ID,
-        secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY
+let development = true
 
-        
+const   region = "us-east-2",
+        bucketName = development? "mond-direct-upload-bucket-dev": "mond-direct-upload-bucket",
+        accessKeyId = process.env.AWS_ACCESS_KEY_ID,
+        secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY,
+        endpoint = new AWS.Endpoint('s3-accelerate.amazonaws.com')
+
+
 const s3 = new AWS.S3({
     region,
     accessKeyId,
-    secretAccessKey
+    secretAccessKey,
+    endpoint
 })
+
+
+console.log(s3.endpoint)
 
 //uploads a file to s3
 function uploadFile(file,deliveryStop) {
