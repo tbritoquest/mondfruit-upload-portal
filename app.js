@@ -84,7 +84,6 @@ app.get('/routes/:id', restrict, (req, res)=> {
 
 
 app.post('/images', restrict, upload.array('images', 30), async (req,res)=>{
-  
     for(let i=0;i<req.files.length;i++){
         let result = await s3.uploadFile(req.files[i], req.body.routePositionsId)
     }

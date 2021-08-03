@@ -1,6 +1,7 @@
 require('dotenv').config()
 const AWS = require('aws-sdk')
 const fs = require('fs')
+const sharp = require('sharp')
 
 
 const   region = "us-east-2",
@@ -16,17 +17,60 @@ const s3 = new AWS.S3({
 })
 
 //uploads a file to s3
-function uploadFile(file,deliveryStop){
-    console.log("S3: ",s3)
-    const fileStream = fs.createReadStream(file.path)
+function uploadFile(file,deliveryStop) {
+    
+    let resize = { fit: 'inside'}
+    let d = new Date()
+    let datestring = d.getFullYear() + "-" + ("0"+(d.getMonth()+1)).slice(-2)  + "-" + ("0" + d.getDate()).slice(-2)
+    + "T"  +("0" + d.getHours()).slice(-2) + "-" + ("0" + d.getMinutes()).slice(-2)
+    
+    const image = sharp(file.path)
+    const maxSideSize = 1000
 
-    const uploadParams = {
-        Bucket: bucketName,
-        Body: fileStream,
-        Key: `${deliveryStop}/${file.filename}`
-    }
+    return image
+        .metadata()
+        .then(metadata => {
+            if(metadata.width > metadata.height) {
+                // horizontal
+                resize.width = maxSideSize
+            } else {
+                // vertical
+                resize.height = maxSideSize
+            }
 
-    return s3.upload(uploadParams).promise()
+            let orientation = metadata.orientation
+
+            return image
+                // .rotate(rotate)
+                .resize(resize)
+                .withMetadata({orientation})
+                .toFormat('jpeg')
+                .jpeg({
+                    quality: 70
+                })
+                .toBuffer()
+                .then(buffer => {
+                    // const fileStream = fs.createReadStream(file.path)
+
+                    const fileType = file.mimetype
+                    const fileExtension = fileType.slice(fileType.indexOf('/') + 1)
+
+                    const uploadParams = {
+                        Bucket: bucketName,
+                        Body: buffer,
+                        Key: `${deliveryStop}/mf-${deliveryStop}-${datestring}-${file.filename.slice(-10)}.${fileExtension}`,
+                        ContentType: fileType,
+                        ACL: 'public-read'
+                    }
+
+                    return s3.upload(uploadParams).promise()
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+
+
+        });
 }
 
 //downloads a file from s3
