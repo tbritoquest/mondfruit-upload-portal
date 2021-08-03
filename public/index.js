@@ -2,7 +2,7 @@ const loginForm = document.getElementById('loginForm')
 
 let upload
 try{
-    upload = new FileUploadWithPreview('myUniqueUploadId') 
+    upload = document.getElementById("files")
 }catch(e){
     upload = null
 }
@@ -60,17 +60,22 @@ if(upload){
         const routePositionsId = document.getElementById('routePositionsId').value
         showInProgress()
 
-        let filesUnsent= upload.cachedFileArray.length
+        let files = document.getElementById("files").files
+
+        let filesUnsent= files.length
         let currIndex = 0
 
         let progressIncrement = parseInt(100/filesUnsent)
         let progress = 0
-        while(upload.cachedFileArray.length>0 && filesUnsent > 0){
+
+        let totalFiles = filesUnsent
+
+        while(totalFiles > 0){
            
             try{
                 
                 let formData = new FormData()
-                formData.append('images', upload.cachedFileArray[currIndex])
+                formData.append('images', files[currIndex])
                 formData.append('routePositionsId', routePositionsId)
 
                 let {message} = await fetch('/images', {
@@ -89,7 +94,8 @@ if(upload){
                 })
                 
                 if(message === "Upload Completed"){
-                    upload.deleteFileAtIndex(currIndex)
+                    // upload.deleteFileAtIndex(currIndex)
+                    totalFiles--
                 }else{
                     currIndex++//skip file that was unsuccessful
                 }
@@ -104,6 +110,7 @@ if(upload){
                 }
                 else
                     currIndex++ //skip file that was unsuccessful
+                    totalFiles--
             }
 
             progress+=progressIncrement
@@ -113,8 +120,8 @@ if(upload){
 
         hideInProgress()
 
-        //Check if files uploaded successfully
-        if(upload.cachedFileArray.length){
+        // Check if files uploaded successfully
+        if(totalFiles.length){
             showNotification('error', `${upload.cachedFileArray.length} ${upload.cachedFileArray.length===1? "file":"files"} failed to upload. Please try again.`)
         }else{
             window.location.href="/success"
@@ -129,8 +136,8 @@ if(upload){
 }
 
 function toggleSubmit(){
-    let submitBtn = document.querySelector("#uploadForm button[type='submit']")
-    submitBtn.disabled = upload.cachedFileArray.length > 0 ? false: true
+    // let submitBtn = document.querySelector("#uploadForm button[type='submit']")
+    // submitBtn.disabled = upload.cachedFileArray.length > 0 ? false: true
     
 }
 
