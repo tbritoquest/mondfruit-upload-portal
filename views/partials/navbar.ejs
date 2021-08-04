@@ -10,4 +10,43 @@
       </a>
 
     </div>
+
+    <div class = "dropdown is-right">
+      <div class = "dropdown-trigger">
+         <a class = "navbar profile" aria-haspopup = "true" aria-controls = "dropdown-menu">
+            <span><i class="fas fa-user-circle"></i></span>
+         </a>
+      </div>
+      <div class = "dropdown-menu" id = "dropdown-menu" role = "menu">
+         <div class = "dropdown-content">
+            <a href = "#" class = "dropdown-item" id="username" style="pointer-events: none;">India</a>
+            <hr class = "dropdown-divider">
+            <a onclick="logout()" class = "dropdown-item" ><i class="fas fa-sign-out-alt"></i> Log Out</a>
+         </div>
+      </div>
+   </div>
+  </div>
+
+
   </nav>
+
+  <script>
+    //DOMContentLoaded - it fires when initial HTML document has been completely loaded
+    document.addEventListener('DOMContentLoaded', function () {
+       // querySelector - it returns the element within the document that matches the specified selector
+       var dropdown = document.querySelector('.dropdown');
+         
+       //addEventListener - attaches an event handler to the specified element.
+       dropdown.addEventListener('click', function(event) {
+         
+          //event.stopPropagation() - it stops the bubbling of an event to parent elements, by preventing parent event handlers from being executed
+          event.stopPropagation();
+           
+          //classList.toggle - it toggles between adding and removing a class name from an element
+          dropdown.classList.toggle('is-active');
+       });
+    });       
+    
+    
+    document.getElementById("username").innerText = localStorage.username || "Welcome"
+ </script>

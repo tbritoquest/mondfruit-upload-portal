@@ -6,9 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Routes</title>
     <link rel="shortcut icon" href="https://mondfruitapp.com/favicon.ico" type="image/x-icon">
-    <!--File Upload With Preview CSS-->
-    <link rel="stylesheet" type="text/css" href="https://unpkg.com/file-upload-with-preview@4.1.0/dist/file-upload-with-preview.min.css"/>
-    
+
+    <!--Uppy-->
+    <link href="https://releases.transloadit.com/uppy/v1.31.0/uppy.min.css" rel="stylesheet">
+
     <!--Font Awesome-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     
@@ -18,8 +19,6 @@
 
   </head>
   <body>
-
-    <!-- <% if(title !== 'Login') include('partials/navbar')%> -->
 
     <% if(title !=='Login'){ %>
       <%- include('partials/navbar')%> 
@@ -31,19 +30,11 @@
         <%- body %>
     </div>
     
-    <div id="in-progress" class="hide">
-      <p>Uploading files...</p>
-      <div class="progress-wrapper">
-        <div class="progress-bar">
-          <span class="progress-bar-fill" style="width: 0;"></span>
-        </div>
-      </div>
-  </div>
 
-  <div class="overlay hide">
-  </div>
 
-    <script src="https://unpkg.com/file-upload-with-preview@4.1.0/dist/file-upload-with-preview.min.js"></script>
+    <div class="overlay hide">
+    </div>
+    
     <script src="/index.js"></script>
   </body>
 </html>

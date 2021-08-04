@@ -21,7 +21,7 @@ const s3 = new AWS.S3({
 })
 
 
-console.log(s3.endpoint)
+// console.log(s3.endpoint)
 
 //uploads a file to s3
 function uploadFile(file,deliveryStop) {

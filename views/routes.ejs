@@ -1,28 +1,35 @@
-<% for(let i=0;i<deliveryStops.length;i++){ %>
-    <!-- <a href="#">Stop<%= deliveryStops[i].customerName%></a> -->
-    <a href="/routes/<%=deliveryStops[i].routePositionsId%>">
-    <div class="tile is-parent">
-        <article class="tile is-child box">
-          <div style="display:flex;gap:0.5em;">
-              <p># <%= deliveryStops[i].position+1%></p>
-              <p><%= deliveryStops[i].deliveryStatus%></p>
-          </div>
-          <p style="text-transform: uppercase;"><%= deliveryStops[i].customerName%></p>
-          <p><%= deliveryStops[i].city%>, <%= deliveryStops[i].state%></p>
-          <p><%= deliveryStops[i].timeSlot%></p>
-          <div style="display: flex;justify-content: space-between;">
-            <% if(deliveryStops[i].deliveryType === "business"){ %>
-                <p><strong>BD</strong></p>
-            <% }else{ %>
-                <p><strong>HD</strong></p>
-            <% } %>
+
+<% if(deliveryStops.length===0){ %>
+    <p>No routes.</p>
+<% }else{ %>
+      <% for(let i=0;i<deliveryStops.length;i++){ %>
         
-            <p>KD:<%= deliveryStops[i].kdSum%> | ASM: <%= deliveryStops[i].asmSum%></p>
+        <a href="/routes/<%=deliveryStops[i].routePositionsId%>">
+        <div class="tile is-parent">
+            <article class="tile is-child box">
+              <div style="display:flex;gap:0.5em;">
+                  <p># <%= deliveryStops[i].position+1%></p>
+                  <p><%= deliveryStops[i].deliveryStatus%></p>
+              </div>
+              <p style="text-transform: uppercase;"><%= deliveryStops[i].customerName%></p>
+              <p><%= deliveryStops[i].city%>, <%= deliveryStops[i].state%></p>
+              <p><%= deliveryStops[i].timeSlot%></p>
+              <div style="display: flex;justify-content: space-between;">
+                <% if(deliveryStops[i].deliveryType === "business"){ %>
+                    <p><strong>BD</strong></p>
+                <% }else{ %>
+                    <p><strong>HD</strong></p>
+                <% } %>
+            
+                <p>KD:<%= deliveryStops[i].kdSum%> | ASM: <%= deliveryStops[i].asmSum%></p>
+              </div>
+            </article>
           </div>
-        </article>
-      </div>
-    </a>
-<% } %>
+        </a>
+    <% } %>
+
+<% }  %>
+
 
 
 

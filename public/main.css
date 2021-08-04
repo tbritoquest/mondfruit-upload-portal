@@ -78,6 +78,9 @@ html.Login{
 
 .navbar{
   background: #104cce;
+  display: flex;
+  justify-content: space-between;
+  z-index: 10020;
 }
 .button.is-primary {
   background-color: #104cce;
@@ -87,3 +90,10 @@ html.Login{
 .button.is-primary:hover{
   background-color: #0f42b1;
 }
+.navbar.profile{
+  font-size: 2em;
+  margin-right: 0.5em;
+  color: #eeeeee;
+}
+
+

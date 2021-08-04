@@ -24,10 +24,8 @@ app.use(express.urlencoded({extended: false}))
 // More middleware
 function restrict(req, res, next){
     if(req.signedCookies.user){
-        console.log("verified")
         next()
     }else{
-        console.log("not verified")
         res.redirect('/')
     }
 }
@@ -58,8 +56,8 @@ app.post('/login',async function (req, res) {
     let hour = 60000 * 60
     
     if(result.length>0){
-        res.cookie('user', result[0].id, {maxAge:hour*12, signed: true})
-        res.status(200).send({message: "Authorized"})
+        res.cookie('user', result[0].id, {maxAge:hour*12, signed: true,path:'/'})
+        res.status(200).send({message: `${result[0].firstName} ${result[0].lastName}`})
     }else{
         res.status(500).send({message: "Unauthorized"})
     }
@@ -83,9 +81,10 @@ app.get('/routes/:id', restrict, (req, res)=> {
 })
 
 
-app.post('/images', restrict, upload.array('images', 30), async (req,res)=>{
+app.post('/images/:id', restrict, upload.array('images', 100), async (req,res)=>{
+
     for(let i=0;i<req.files.length;i++){
-        let result = await s3.uploadFile(req.files[i], req.body.routePositionsId)
+        let result = await s3.uploadFile(req.files[i], req.params.id)
     }
     
     res.send({message: "Upload Completed"})
