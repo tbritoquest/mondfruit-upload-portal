@@ -1,6 +1,6 @@
 
 <% if(deliveryStops.length===0){ %>
-    <p>No routes.</p>
+    <p>No deliveries to show. <a onClick="window.location.reload();" style="text-decoration: underline;">Refresh <i class="fas fa-redo" style="font-size:14px;"></i></a></p>
 <% }else{ %>
       <% for(let i=0;i<deliveryStops.length;i++){ %>
         
@@ -27,7 +27,7 @@
           </div>
         </a>
     <% } %>
-
+    <button onClick="window.location.reload();" class="button is-fullwidth refresh-btn is-info">Refresh</button>
 <% }  %>
 
 

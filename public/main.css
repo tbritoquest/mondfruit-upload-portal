@@ -95,5 +95,9 @@ html.Login{
   margin-right: 0.5em;
   color: #eeeeee;
 }
+.refresh-btn{
+  width: 98% !important;
+  margin: 2em auto;
+}
 
 
