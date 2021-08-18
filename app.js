@@ -72,7 +72,8 @@ app.get('/routes',restrict,async (req,res)=>{
     let result = await fetch(`https://mondfruitapp.com/api/drivers/id/${req.signedCookies.user}/deliveries/${date}`)
         .then(response => response.json())
 
-    res.render('routes',{title: 'Delivery Stops', deliveryStops: result})
+    let unlockedStops = result.filter(stop=>!stop.isLocked)
+    res.render('routes',{title: 'Delivery Stops', deliveryStops: unlockedStops})
 })
 
 app.get('/routes/:id', restrict, (req, res)=> {
